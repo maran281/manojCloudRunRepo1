@@ -20,9 +20,9 @@ steps:
     - 'us-east1'
     - '--platform'
     - 'managed'
-    - '--min-instance'
+    - '--min-instances'
     - '0'
-    - '--max-instance'
+    - '--max-instances'
     - '1'
     - 'allow-unauthenticated'
 images:
