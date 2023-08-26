@@ -24,6 +24,6 @@ steps:
     - '0'
     - '--max-instances'
     - '1'
-    - 'allow-unauthenticated'
+    - '--allow-unauthenticated'
 images:
   - 'us-east1-docker.pkg.dev/$PROJECT_ID/my-docker-images-repo/svchelloworld'
