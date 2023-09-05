@@ -1,0 +1,30 @@
+steps:
+#build the container images:
+- name: 'gcr.io/cloud-builders/docker'
+  dir: 'cloudrun_manoj_poc'
+  args: ['build', '-t', 'us-east1-docker.pkg.dev/$PROJECT_ID/my-docker-images-repo/svchelloworld2:$COMMIT_SHA','.']
+#push container image to artifact registry
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'us-east1-docker.pkg.dev/$PROJECT_ID/my-docker-images-repo/svchelloworld2:$COMMIT_SHA']
+
+#initialize and apply terraform
+- name: 'hashicorp/terraform'
+  entrypoint: 'sh'
+  args:
+    - "-c"
+    - |
+      # fetch the secret key containing the service account key
+      gcloud secret versions access latest --secert="manoj-saJsonKeyFile-secret" > keyfile.json
+
+      #Authenticate with google cloud using the service account key
+      gcloud auth activate-service-account --key-file=keyfile.json
+      gcloud config set project $PROJECT_ID
+
+      #go inside the folder where terraform files are stored
+      cd terraformFiles
+
+      #Initialize terraform
+      terraform init
+
+      #Apply terraform configuration
+      terraform apply -auto-approve
