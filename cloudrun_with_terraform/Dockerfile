@@ -20,4 +20,4 @@ COPY . ./
 #use gunicornwebserver with one worker process and 8 threads
 #for environment with multiple CPU cores, increase the number of workers
 #to be equal to the core available
-CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 app:app
+CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 python_app1:app
