@@ -9,7 +9,7 @@ steps:
 
 #initialize and apply terraform
 - name: 'hashicorp/terraform'
-  entrypoint: 'sh'
+  entrypoint: 'bash'
   args:
     - "-c"
     - |
