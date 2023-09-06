@@ -6,44 +6,9 @@ steps:
 #push container image to artifact registry
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'us-east1-docker.pkg.dev/$PROJECT_ID/my-docker-images-repo/svchelloworld2:$COMMIT_SHA']
-
-#Debuggin and troubleshooting
-- name: 'hashicorp/terraform'
-  entrypoint: 'bash'
-  args:
-    - "-c"
-    - |
-      # Debugging: Output current directory and list files
-      pwd
-      ls -la
-
-      # fetch the secret key containing the service account key
-      gcloud secret versions access latest --secret="manoj-saJsonKeyFile-secret" > keyfile.json
-
-      # Authenticate with Google Cloud using the service account key
-      gcloud auth activate-service-account --key-file=keyfile.json
-      gcloud config set project $PROJECT_ID
-
-      # Debugging: Output current directory and list files again
-      pwd
-      ls -la
-
-      # Go inside the folder where Terraform files are stored
-      cd cloudrun_with_terraform/terraformFiles || exit
-
-      # Debugging: Output current directory and list files again
-      pwd
-      ls -la
-
-      # Initialize Terraform
-      terraform init
-
-      # Apply Terraform configuration
-      terraform apply -auto-approve
-
-
+  
 #initialize and apply terraform
-- name: 'hashicorp/terraform'
+- name: 'ubuntu'
   entrypoint: 'bash'
   args:
     - "-c"
