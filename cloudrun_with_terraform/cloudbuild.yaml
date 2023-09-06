@@ -20,7 +20,7 @@ steps:
 
       ls -la
 
-      cd terraformFiles || exit
+      cd cloudrun_with_terraform/terraformFiles || exit
 
       ls -la
 
@@ -39,7 +39,7 @@ steps:
       gcloud config set project $PROJECT_ID
 
       #go inside the folder where terraform files are stored
-      cd terraformFiles
+      cd cloudrun_with_terraform/terraformFiles
 
       #Initialize terraform
       terraform init
