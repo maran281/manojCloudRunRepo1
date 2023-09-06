@@ -1,0 +1,113 @@
+steps:
+  - id: "set-terraform-bucket-name"
+    name: gcr.io/cloud-builders/gcloud
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        sed -i s/PIPELINE_NAME/$_PIPELINE_NAME/g backend.tf
+        sed -i s/ENVIRONMENT/$_ENVIRONMENT/g backend.tf
+    dir: "Infrastructure"
+
+  - id: "create-terraform-state-bucket"
+    name: gcr.io/cloud-builders/gcloud
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        gsutil mb -p $_PROJECT_ID -l $_TFBUCKET_REGION gs://$_PIPELINE_NAME-$_ENVIRONMENT-tfstate || true
+        gsutil versioning set on gs://$_PIPELINE_NAME-$_ENVIRONMENT-tfstate
+        gsutil uniformbucketlevelaccess set on gs://$_PIPELINE_NAME-$_ENVIRONMENT-tfstate
+  - id: "access-ssh-key-from-secret-manager"
+    name: gcr.io/cloud-builders/gcloud
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        gcloud secrets versions access latest --secret=github-key > /root/.ssh/id_github
+    volumes:
+      - name: "ssh"
+        path: /root/.ssh
+
+  - id: "terraform-init"
+    name: "${_TERRAFORM_IMAGE}"
+    entrypoint: "sh"
+    args:
+      - "-c"
+      - |
+        terraform init 
+    env:
+      - "TF_VAR_project_id=$_PROJECT_ID"
+      - "TF_VAR_environment=$_ENVIRONMENT"
+      - "TF_VAR_pipeline_name=$_PIPELINE_NAME"
+      - "TF_VAR_build_id=$BUILD_ID"
+    dir: "Infrastructure"
+    volumes:
+      - name: "ssh"
+        path: /root/.ssh
+
+  - id: "terraform-plan"
+    name: "${_TERRAFORM_IMAGE}"
+    entrypoint: "sh"
+    args:
+      - "-c"
+      - |
+        terraform plan
+    env:
+      - "TF_VAR_project_id=$_PROJECT_ID"
+      - "TF_VAR_environment=$_ENVIRONMENT"
+      - "TF_VAR_pipeline_name=$_PIPELINE_NAME"
+      - "TF_VAR_build_id=$BUILD_ID"
+    dir: "Infrastructure"
+
+  - id: "terraform-deploy-or-destroy"
+    name: "${_TERRAFORM_IMAGE}"
+    entrypoint: "sh"
+    args:
+      - "-c"
+      - |
+        if [ ${_TYPE} == "deploy" ]
+        then 
+          terraform apply -auto-approve
+        elif [ ${_TYPE} == "destroy" ]
+        then
+          terraform destroy -auto-approve       
+        else 
+          echo "${_TYPE}, jumping over step"
+        fi
+    env:
+      - "TF_VAR_project_id=$_PROJECT_ID"
+      - "TF_VAR_environment=$_ENVIRONMENT"
+      - "TF_VAR_pipeline_name=$_PIPELINE_NAME"
+      - "TF_VAR_build_id=$BUILD_ID"
+    dir: "Infrastructure"
+
+  - id: "Get terraform file"
+    name: gcr.io/cloud-builders/gcloud
+    entrypoint: "bash"
+    args:
+      - "-c"
+      - |
+        if [ ${_TYPE} == "deploy" ] ||  [ ${_TYPE} == "destroy" ]
+        then 
+          gsutil cp gs://$_PIPELINE_NAME-$_ENVIRONMENT-tfstate/state/default.tfstate .
+        else 
+          echo "${_TYPE}, jumping over step"
+        fi
+    dir: "Infrastructure"
+
+
+
+tags: ["$_PIPELINE_NAME", "$_FOLDER", "${_TYPE}"]
+timeout: 1200s
+options:
+    dynamic_substitutions: true
+
+substitutions:
+  _ENVIRONMENT: "sample"
+  _PROJECT_ID: "ingka-dpbsft-modern-${_ENVIRONMENT}" 
+  _TFBUCKET_REGION: "europe-west1"
+  _FOLDER: "sync_load_trip_show_iris"
+  _PIPELINE_NAME: "sync_load_trip_show_iris"
+  _TERRAFORM_IMAGE: "hashicorp/terraform:latest"
+  _TYPE: "deploy"
