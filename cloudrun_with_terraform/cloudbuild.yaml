@@ -7,7 +7,6 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'us-east1-docker.pkg.dev/$PROJECT_ID/my-docker-images-repo/svchelloworld2:$COMMIT_SHA']
 
-- na
 #initialize and apply terraform
 - name: 'hashicorp/terraform'
   entrypoint: 'sh'
