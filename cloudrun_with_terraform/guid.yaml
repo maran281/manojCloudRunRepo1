@@ -18,6 +18,7 @@ steps:
         gsutil mb -p $_PROJECT_ID -l $_TFBUCKET_REGION gs://$_PIPELINE_NAME-$_ENVIRONMENT-tfstate || true
         gsutil versioning set on gs://$_PIPELINE_NAME-$_ENVIRONMENT-tfstate
         gsutil uniformbucketlevelaccess set on gs://$_PIPELINE_NAME-$_ENVIRONMENT-tfstate
+        
   - id: "access-ssh-key-from-secret-manager"
     name: gcr.io/cloud-builders/gcloud
     entrypoint: "bash"
