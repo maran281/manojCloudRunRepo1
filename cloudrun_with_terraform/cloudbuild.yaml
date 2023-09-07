@@ -30,7 +30,7 @@ steps:
     - "-c"
     - |
       gcloud secret versions access latest --secret="manoj-saJsonKeyFile-secret" > /root/.ssh/keyfile.json
-      gcloud auth activate-service-account --key-file=keyfile.json
+      gcloud auth activate-service-account --key-file=/root/.ssh/keyfile.json
       gcloud config set project $PROJECT_ID      
   volumes:
     - name: "ssh"
@@ -46,7 +46,7 @@ steps:
 
       # # fetch the secret key containing the service account key
       # gcloud secret versions access latest --secret="manoj-saJsonKeyFile-secret" > keyfile.json
-      
+
       # echo 'debug line2'
 
       # #Authenticate with google cloud using the service account key
