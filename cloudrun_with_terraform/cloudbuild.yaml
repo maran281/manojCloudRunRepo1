@@ -30,7 +30,7 @@ steps:
     - "-c"
     - |
       echo 'debug 1'
-      gcloud secret versions access latest --secret="manoj-saJsonKeyFile-secret" > /root/.ssh/keyfile.json
+      gcloud secrets versions access latest --secret="manoj-saJsonKeyFile-secret" > /root/.ssh/keyfile.json
       echo 'debug 2'
       gcloud auth activate-service-account --key-file=/root/.ssh/keyfile.json
       echo 'debug 3'
