@@ -31,8 +31,10 @@ steps:
   args:
     - "-c"
     - |
+      echo 'debug line1'
       # fetch the secret key containing the service account key
       gcloud secret versions access latest --secert="manoj-saJsonKeyFile-secret" > keyfile.json
+      echo 'debug line2'
 
       #Authenticate with google cloud using the service account key
       gcloud auth activate-service-account --key-file=keyfile.json
