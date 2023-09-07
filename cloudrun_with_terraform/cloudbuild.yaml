@@ -35,7 +35,7 @@ steps:
       gcloud auth activate-service-account --key-file=/root/.ssh/keyfile.json
       echo 'debug 3'
       gcloud config set project $PROJECT_ID      
-      echo 'debug 4'
+      echo 'debug 4 '
   volumes:
     - name: "ssh"
       path: /root/.ssh 
