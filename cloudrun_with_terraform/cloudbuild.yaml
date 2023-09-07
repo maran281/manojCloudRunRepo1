@@ -30,7 +30,7 @@ steps:
     - "-c"
     - |
       echo 'debug 0'
-      gcloud config get-value project
+      gcloud secrets list --project=manojproject1-396309
       echo 'debug 1'
       gcloud secrets versions access latest --secret="manoj-saJsonKeyFile-secret" > /root/.ssh/keyfile.json
       echo 'debug 2'
