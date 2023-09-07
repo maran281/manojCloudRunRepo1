@@ -23,6 +23,18 @@ steps:
 
       ls -la
 
+#saving a secret inisde a container
+- name: 'gcr.io/cloud-builders/gcloud'
+  entrypoint: 'bash'
+  args:
+    - "-c"
+    - |
+      gcloud secret versions access latest --secret="manoj-saJsonKeyFile-secret" > /root/.ssh/keyfile.json
+      gcloud auth activate-service-account --key-file=keyfile.json
+      gcloud config set project $PROJECT_ID      
+  volumes:
+    - name: "ssh"
+      path: /root/.ssh 
 
 #initialize and apply terraform
 - name: 'hashicorp/terraform'
@@ -32,20 +44,25 @@ steps:
     - |
       echo 'debug line1'
 
-      # fetch the secret key containing the service account key
-      gcloud secret versions access latest --secret="manoj-saJsonKeyFile-secret" > keyfile.json
+      # # fetch the secret key containing the service account key
+      # gcloud secret versions access latest --secret="manoj-saJsonKeyFile-secret" > keyfile.json
       
-      echo 'debug line2'
+      # echo 'debug line2'
 
-      #Authenticate with google cloud using the service account key
-      gcloud auth activate-service-account --key-file=keyfile.json
-      gcloud config set project $PROJECT_ID
+      # #Authenticate with google cloud using the service account key
+      # gcloud auth activate-service-account --key-file=keyfile.json
+      # gcloud config set project $PROJECT_ID
 
       #go inside the folder where terraform files are stored
       cd cloudrun_with_terraform/terraformFiles
+
+      echo 'debug line2'
 
       #Initialize terraform
       terraform init
 
       #Apply terraform configuration
-      terraform apply -auto-approve
+      terraform apply -auto-approve  
+  volumes:
+    - name: "ssh"
+      path: /root/.ssh 
