@@ -32,7 +32,7 @@ steps:
       echo 'debug 0 '
       gcloud secrets list --project=manojproject1-396309
       echo 'debug 1'
-      gcloud secrets versions access latest --secret="manoj-saJsonKeyFile-secret" > /root/.ssh/keyfile.json
+      gcloud secrets versions access latest --secret="manoj-saJsonKeyFile-secret-2" > /root/.ssh/keyfile.json
       echo 'debug 2'
       gcloud auth activate-service-account --key-file=/root/.ssh/keyfile.json
       echo 'debug 3'
