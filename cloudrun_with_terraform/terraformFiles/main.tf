@@ -14,7 +14,7 @@ resource "google_cloud_run_service" "my-first-cloudrun-service" {
   template {
     spec {
       containers {
-        image = "us-east1-docker.pkg.dev/var.project_id/my-docker-images-repo/svchelloworld2:${COMMIT_SHA}"
+        image = "us-east1-docker.pkg.dev/manojproject1-396309/my-docker-images-repo/svchelloworld2:${COMMIT_SHA}"
       }
     }
   }
