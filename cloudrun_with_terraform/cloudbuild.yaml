@@ -31,9 +31,6 @@ steps:
   args:
     - "-c"
     - |
-      echo '***************** DEBUG LINE 0 INSIDE SECRET STEP *****************'
-      echo '$PROJECT_ID' 
-      echo $PROJECT_ID
       echo '***************** DEBUG LINE 1 INSIDE SECRET STEP *****************'
       gcloud secrets list --project=manojproject1-396309
       echo '***************** DEBUG LINE 2 INSIDE SECRET STEP *****************'
@@ -42,7 +39,7 @@ steps:
       gcloud auth activate-service-account --key-file=/root/.ssh/keyfile.json
       echo '***************** DEBUG LINE 4 INSIDE SECRET STEP *****************'
       gcloud config set project $PROJECT_ID      
-      echo '***************** DEBUG LINE 5 INSIDE SECRET STEP ***************** '
+      echo '***************** DEBUG LINE 5 INSIDE SECRET STEP *****************'
   volumes:
     - name: "ssh"
       path: /root/.ssh 
@@ -54,6 +51,7 @@ steps:
     - "-c"
     - |
       echo '***************** DEBUG LINE 1 INSIDE INITIALIZAE TERRAFORM *****************'
+      gcloud config set project $PROJECT_ID      
 
       # # fetch the secret key containing the service account key
       # gcloud secret versions access latest --secret="manoj-saJsonKeyFile-secret" > keyfile.json
