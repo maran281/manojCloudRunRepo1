@@ -51,16 +51,10 @@ steps:
     - "-c"
     - |
       echo '***************** DEBUG LINE 1 INSIDE INITIALIZAE TERRAFORM *****************'
+      
       gcloud config set project $PROJECT_ID      
 
-      # # fetch the secret key containing the service account key
-      # gcloud secret versions access latest --secret="manoj-saJsonKeyFile-secret" > keyfile.json
-
       # echo '***************** DEBUG LINE 2 INSIDE INITIALIZAE TERRAFORM *****************'
-
-      # #Authenticate with google cloud using the service account key
-      # gcloud auth activate-service-account --key-file=keyfile.json
-      # gcloud config set project $PROJECT_ID
 
       #go inside the folder where terraform files are stored
       cd cloudrun_with_terraform/terraformFiles
