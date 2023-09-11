@@ -52,6 +52,8 @@ steps:
     - |
       echo 'debug line1'
 
+      echo '$PROJECT_ID'
+
       # # fetch the secret key containing the service account key
       # gcloud secret versions access latest --secret="manoj-saJsonKeyFile-secret" > keyfile.json
 
