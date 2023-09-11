@@ -31,15 +31,18 @@ steps:
   args:
     - "-c"
     - |
-      echo 'debug 0'
+      echo '***************** DEBUG LINE 0 INSIDE SECRET STEP *****************'
+      echo '$PROJECT_ID' 
+      echo $PROJECT_ID
+      echo '***************** DEBUG LINE 1 INSIDE SECRET STEP *****************'
       gcloud secrets list --project=manojproject1-396309
-      echo 'debug 1'
+      echo '***************** DEBUG LINE 2 INSIDE SECRET STEP *****************'
       gcloud secrets versions access latest --secret="manoj-saJsonKeyFile-secret-2" > /root/.ssh/keyfile.json
-      echo 'debug 2'
+      echo '***************** DEBUG LINE 3 INSIDE SECRET STEP *****************'
       gcloud auth activate-service-account --key-file=/root/.ssh/keyfile.json
-      echo 'debug 3'
+      echo '***************** DEBUG LINE 4 INSIDE SECRET STEP *****************'
       gcloud config set project $PROJECT_ID      
-      echo 'debug 4 '
+      echo '***************** DEBUG LINE 5 INSIDE SECRET STEP ***************** '
   volumes:
     - name: "ssh"
       path: /root/.ssh 
@@ -50,14 +53,12 @@ steps:
   args:
     - "-c"
     - |
-      echo 'debug line1'
-
-      echo '$PROJECT_ID'
+      echo '***************** DEBUG LINE 1 INSIDE INITIALIZAE TERRAFORM *****************'
 
       # # fetch the secret key containing the service account key
       # gcloud secret versions access latest --secret="manoj-saJsonKeyFile-secret" > keyfile.json
 
-      # echo 'debug line2'
+      # echo '***************** DEBUG LINE 2 INSIDE INITIALIZAE TERRAFORM *****************'
 
       # #Authenticate with google cloud using the service account key
       # gcloud auth activate-service-account --key-file=keyfile.json
@@ -66,7 +67,7 @@ steps:
       #go inside the folder where terraform files are stored
       cd cloudrun_with_terraform/terraformFiles
 
-      echo 'debug line2'
+      echo '***************** DEBUG LINE 3 INSIDE INITIALIZAE TERRAFORM *****************'
 
       #Initialize terraform
       terraform init
