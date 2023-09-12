@@ -9,7 +9,8 @@ provider "google" {
 resource "google_cloud_run_service" "my-first-cloudrun-service" {
   name     = var.service_name
   location = var.service_location
-
+  member = "allUsers"
+  
   template {
     spec {
       containers {
@@ -22,6 +23,4 @@ resource "google_cloud_run_service" "my-first-cloudrun-service" {
     percent         = 100
     latest_revision = true
   }
-
-  allow_unauthenticated = true
 }
