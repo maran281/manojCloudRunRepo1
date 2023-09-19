@@ -1,7 +1,7 @@
 steps:
   - name: 'gcr.io/cloud-builders/docker'
     dir: 'testProject1234'
-    args: ['build','-t','tmpRepo/tmp_image_name','.']
+    args: ['build','-t','tmprepo/tmp_image_name','.']
 
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push','tmpRepo/tmp_image_name',]
+    args: ['push','tmprepo/tmp_image_name',]
