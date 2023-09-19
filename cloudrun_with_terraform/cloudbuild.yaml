@@ -1,29 +1,29 @@
 steps:
 #build the container images:
 - name: 'gcr.io/cloud-builders/docker'
-  dir: 'cloudrun_manoj_poc'
+  dir: 'cloudrun_with_terraform'
   #args: ['build', '-t', 'us-east1-docker.pkg.dev/$PROJECT_ID/my-docker-images-repo/svchelloworld2:$COMMIT_SHA','.']
-  args: ['build', '-t', 'us-east1-docker.pkg.dev/$PROJECT_ID/my-docker-images-repo/svchelloworld2','.']
+  args: ['build', '-t', 'us-east1-docker.pkg.dev/$PROJECT_ID/my-docker-images-repo/svchelloworld3','.']
 #push container image to artifact registry
 - name: 'gcr.io/cloud-builders/docker'
   #args: ['push', 'us-east1-docker.pkg.dev/$PROJECT_ID/my-docker-images-repo/svchelloworld2:$COMMIT_SHA']
-  args: ['push', 'us-east1-docker.pkg.dev/$PROJECT_ID/my-docker-images-repo/svchelloworld2']
+  args: ['push', 'us-east1-docker.pkg.dev/$PROJECT_ID/my-docker-images-repo/svchelloworld3']
 
-#Debuggin and troubleshooting
-- name: 'gcr.io/cloud-builders/gcloud'
-  entrypoint: 'bash'
-  args:
-    - '-c'
-    - |
-      gcloud --version
+# #Debuggin and troubleshooting
+# - name: 'gcr.io/cloud-builders/gcloud'
+#   entrypoint: 'bash'
+#   args:
+#     - '-c'
+#     - |
+#       gcloud --version
 
-      pwd
+#       pwd
 
-      ls -la
+#       ls -la
 
-      cd cloudrun_with_terraform/terraformFiles || exit
+#       cd cloudrun_with_terraform/terraformFiles || exit
 
-      ls -la
+#       ls -la
 
 #saving a secret inisde a container
 - name: 'gcr.io/cloud-builders/gcloud'
