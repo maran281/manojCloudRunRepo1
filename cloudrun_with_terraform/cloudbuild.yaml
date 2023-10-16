@@ -3,11 +3,12 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   dir: 'cloudrun_with_terraform'
   #args: ['build', '-t', 'us-east1-docker.pkg.dev/$PROJECT_ID/my-docker-images-repo/svchelloworld2:$COMMIT_SHA','.']
-  args: ['build', '-t', 'us-east1-docker.pkg.dev/$PROJECT_ID/my-docker-images-repo/svchelloworld3','.']
+  args: ['build', '-t', 'us-east1-docker.pkg.dev/$PROJECT_ID/my-docker-images-repo/svchelloworld4','.']
 #push container image to artifact registry
 - name: 'gcr.io/cloud-builders/docker'
   #args: ['push', 'us-east1-docker.pkg.dev/$PROJECT_ID/my-docker-images-repo/svchelloworld2:$COMMIT_SHA']
-  args: ['push', 'us-east1-docker.pkg.dev/$PROJECT_ID/my-docker-images-repo/svchelloworld3']
+  args: ['push', 'us-east1-docker.pkg.dev/$PROJECT_ID/my-docker-images-repo/svchelloworld4']
+
 
 # #Debuggin and troubleshooting
 # - name: 'gcr.io/cloud-builders/gcloud'
@@ -42,7 +43,7 @@ steps:
       echo '***************** DEBUG LINE 5 INSIDE SECRET STEP ***************** '
   volumes:
     - name: "ssh"
-      path: /root/.ssh 
+      path: /root/.ssh
 
 #initialize and apply terraform
 - name: 'hashicorp/terraform'
