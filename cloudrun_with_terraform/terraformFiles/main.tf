@@ -16,6 +16,8 @@ resource "google_cloud_run_service" "my-first-cloudrun-service" {
         image = "us-east1-docker.pkg.dev/manojproject1-396309/my-docker-images-repo/svchelloworld3"
       }
     }
+
+  service_account_name = "manoj-gcp-poc-sa@manojproject1-396309.iam.gserviceaccount.com"
   }
 
   traffic {
