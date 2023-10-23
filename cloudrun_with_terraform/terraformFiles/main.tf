@@ -23,7 +23,7 @@ resource "google_cloud_run_service" "my-first-cloudrun-service" {
     latest_revision = true
   }
 
-  service_account_id = manoj-gcp-poc-sa@manojproject1-396309.iam.gserviceaccount.com
+  service_account_id = "manoj-gcp-poc-sa@manojproject1-396309.iam.gserviceaccount.com"
 
 }
 
