@@ -22,9 +22,6 @@ resource "google_cloud_run_service" "my-first-cloudrun-service" {
     percent         = 100
     latest_revision = true
   }
-
-  service_account_id = "manoj-gcp-poc-sa@manojproject1-396309.iam.gserviceaccount.com"
-
 }
 
 data "google_iam_policy" "noauth" {
